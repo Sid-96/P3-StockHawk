@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Stock Hawk</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint" translatable="false">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="offline_text_view">No internet connection !!! Stocks may be out of date ...</string>
+    <string name="add_stocks">Click + to add new stocks </string>
+    <string name="invalid_stock_text">Invalid stock symbol</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_title">Today \'s Market</string>
+    <string name="string_symbol" translatable="false">symbol</string>
+    <string name="string_set_background_resource">setBackgroundResource</string>
+    <string name="loading_failed">Oops!! Loading failed.. Check your Internet connection</string>
+    <string name="error">Error</string>
+    <string name="loading">Loading&#8230;</string>
+</resources>
