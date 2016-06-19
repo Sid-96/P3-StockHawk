@@ -53,6 +53,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
+    private Cursor tempCursor;
     boolean isConnected;
     TextView emptyTextView;
 
@@ -114,7 +115,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        String symbol = ((TextView)findViewById(R.id.stock_symbol)).getText().toString();
+                        String symbol = ((TextView)v.findViewById(R.id.stock_symbol)).getText().toString();
                         Intent intent = new Intent(mContext,DetailStocksActivity.class);
                         intent.putExtra("symbol",symbol);
                         startActivity(intent);
@@ -137,12 +138,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
                                     // On FAB click, receive user input. Make sure the stock doesn't already exist
                                     // in the DB and proceed accordingly
-                                    Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-                                            new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
-                                            new String[]{input.toString().toUpperCase()}, null);
-                                    if (c.getCount() != 0) {
+                                    GetCursorRunnable r = new GetCursorRunnable();
+                                    r.setInput(input.toString().toUpperCase());
+                                    r.run();
+                                    if (tempCursor.getCount() != 0) {
                                         Toast toast =
-                                                Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+                                                Toast.makeText(MyStocksActivity.this,R.string.stock_saved,
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
@@ -251,6 +252,21 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
+    }
+
+    public class GetCursorRunnable implements Runnable{
+        private String input;
+
+        public void setInput(String input) {
+            this.input = input;
+        }
+
+        @Override
+        public void run() {
+            tempCursor = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+                    new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
+                    new String[]{input}, null);
+        }
     }
 
 }
